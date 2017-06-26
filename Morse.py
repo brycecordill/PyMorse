@@ -48,6 +48,19 @@ def convert_to_morse(string):
 
 def convert_to_text(string):
     converted = ""
+    spaceCount = 0
+    # way to find spaces after split
+    string = string.replace(' ', ' ^ ').split()
+    for word in string:
+        if word == '^':
+            if spaceCount < 2:
+                spaceCount += 1
+            else:
+                converted += " "
+                spaceCount = 0
+        else:
+            spaceCount = 0
+            converted += list(Morse.keys())[list(Morse.values()).index(word)]
     return converted
 
 
