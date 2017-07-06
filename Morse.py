@@ -7,9 +7,12 @@ Morse = {'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.',
 
 
 def convert_single(letter):
+    # Force upper case
     letter = str(letter).upper()
+    # Checks if a single letter or in Morse code
     if len(letter) > 1 and ('.' not in letter and '-' not in letter):
         print("Not a single char!  Converting...")
+        # Reduces to single character if not in Morse
         letter = letter[0:1]
     if letter in Morse:  # if it's a letter
         return Morse[letter]
@@ -20,12 +23,13 @@ def convert_single(letter):
         return ''
 
 
+# Checks whether string is Morse or text, then sends to correct f()
 def check_morse(string):
     string = str(string).upper()
-    mCode = True
+    mCode = True  # True if in Morse, false if it's text
 
     for ch in list(string):
-        # checks if in morse code, false if not
+        # mCode is false if there are any characters except dots or dashes
         if not(ch is '.' or ch is '-' or ch is ' '):
             mCode = False
     if mCode:
@@ -37,10 +41,13 @@ def check_morse(string):
 def convert_to_morse(string):
     converted = ""
     for ch in list(string):
+        # Checks if the character can be converted
         if ch in Morse:
             converted += Morse.get(ch) + " "
+        # Turns spaces into 3 spaces to separate words
         elif ch == " ":
             converted += "   "
+        # If character cannot be converted
         else:
             converted += "(?)"
     return converted
@@ -48,21 +55,28 @@ def convert_to_morse(string):
 
 def convert_to_text(string):
     converted = ""
+    # Counts number of spaces to determine if it's a new word; reset on - or .
     spaceCount = 0
-    # way to find spaces after split
+    # Way to find spaces after split
     string = string.replace(' ', ' ^ ').split()
     for word in string:
+        # If it's a space
         if word == '^':
             if spaceCount < 2:
                 spaceCount += 1
+            # Adds a space in converted for a new word
             else:
                 converted += " "
                 spaceCount = 0
-        else:
+        elif word in Morse.values():
             spaceCount = 0
+            # Adds letter to converted
             converted += list(Morse.keys())[list(Morse.values()).index(word)]
+        else:
+            # If it cannot be converted
+            converted += "(?)"
     return converted
 
 
 # print('\n'+convert_single(input("Please enter a character to convert: ")))
-print('\n\n\n'+check_morse(input("Enter a phrase to convert: ")))
+print(check_morse(input("Enter a phrase to convert: ")))
