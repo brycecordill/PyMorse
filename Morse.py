@@ -78,5 +78,5 @@ def convert_to_text(string):
     return converted
 
 
-# print('\n'+convert_single(input("Please enter a character to convert: ")))
 print(check_morse(input("Enter a phrase to convert: ")))
+
